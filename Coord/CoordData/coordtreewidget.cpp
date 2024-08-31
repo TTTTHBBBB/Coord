@@ -83,15 +83,15 @@ QTreeWidgetItem* CoordTreeWidget::addTreeItem(QTreeWidgetItem *parentItem,QStrin
     return item;
 }
 
-void CoordTreeWidget::ReadTreeNode(const CoordTreeNode& rote)
+void CoordTreeWidget::ReadTreeNode(const CoordTreeNode& rote,QTreeWidgetItem *parentItem)
 {//层节点都是目录
     if(rote.isFile == FILETYPE::COORDROTE)
-    {
+    {//根节点
         topItem->setText(0,rote.filename);
         this->addTopLevelItem(topItem);
         parentItem = topItem;
     }else if(rote.isFile == FILETYPE::COORDFILE)
-    {
+    {//子目录节点
         parentItem = addTreeItem(parentItem,rote.filename,rote.isFile);
     }
 
@@ -103,7 +103,7 @@ void CoordTreeWidget::ReadTreeNode(const CoordTreeNode& rote)
         CoordTreeNode* childNode = *node;
         if(childNode->isFile == FILETYPE::COORDFILE)
         {
-            ReadTreeNode(*childNode);
+            ReadTreeNode(*childNode,parentItem);
         }else if(childNode->isFile == FILETYPE::COORDTEXT)
         {
             QTreeWidgetItem *Childitem = addTreeItem(parentItem,childNode->filename,childNode->isFile);
@@ -111,7 +111,6 @@ void CoordTreeWidget::ReadTreeNode(const CoordTreeNode& rote)
         }
     }
 }
-
 void CoordTreeWidget::onItemDoubleClicked(QTreeWidgetItem *item, int column)
 {//双击事件
     Q_UNUSED(column);

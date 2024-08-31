@@ -20,7 +20,7 @@ public:
     explicit CoordTreeWidget(QWidget *parent = nullptr);
     void TreeWidgetInit();
     QTreeWidgetItem* addTreeItem(QTreeWidgetItem *parentItem,QString name,FILETYPE TYPE = FILETYPE::COORDFILE);
-    void ReadTreeNode(const CoordTreeNode& node);
+    void ReadTreeNode(const CoordTreeNode& node,QTreeWidgetItem *parentItem = nullptr);
     void MatchText();
     void ClearTree();//添加之前需要调用
 
